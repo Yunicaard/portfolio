@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+:root{
+  --bg:#5f666a; /* gris más oscuro */
+  --panel:#ffffff;
+  --muted:#2f3840; /* texto secundario oscuro */
+  --gold:#d4a400; /* dorado */
+  --sky:#2ea6f6; /* azul cielo */
+  --accent:#60a5fa;
+  --radius:8px;
+  --text-dark: #0b1220; /* color oscuro para títulos sobre fondo claro */
+  --text-light: #e6eef6; /* color claro para títulos sobre fondo oscuro (overlay) */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#eceff1 0%, var(--bg) 100%);
+  color:#0b1220; /* texto principal oscuro */
+  font-family:Poppins, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* sticky nav reserve space */
+.topbar-sticky-space{height:72px}
+
+/* topbar / sticky nav */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:72px;display:flex;justify-content:center;align-items:center;z-index:80;padding:10px 20px;background:rgba(255,255,255,0.85);backdrop-filter: blur(6px);border-bottom:1px solid rgba(15,23,42,0.06);
+}
+.topbar-inner{max-width:1100px;width:100%;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,var(--sky),var(--gold));display:flex;align-items:center;justify-content:center;font-weight:700;color:#041014;font-family:'Press Start 2P',monospace}
+.brand h1{margin:0;font-size:15px;color:var(--text-dark);font-family:'Press Start 2P',monospace}
+.nav{display:flex;gap:10px;align-items:center}
+.nav a{color:var(--text-dark);text-decoration:none;padding:8px 12px;border-radius:6px;font-size:13px;border:2px solid transparent}
+.nav a:hover{color:var(--sky);border-color:rgba(15,23,42,0.04)}
+.nav a.active{color:var(--sky);border-color:rgba(15,23,42,0.06)}
+
+/* NAV icons styling: mostrar sólo iconos en la barra superior */
+.nav a.cta-social{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;padding:6px;border-radius:8px;background:transparent;border:2px solid transparent}
+.nav a.cta-social img{width:20px;height:20px;display:block}
+.nav a.cta-social.github:hover{background:rgba(0,0,0,0.04)}
+.nav a.cta-social.linkedin:hover{background:rgba(10,102,194,0.06)}
+
+/* Ensure inline SVG LinkedIn icon is visible and sized */
+.icon-linkedin{width:20px;height:20px;display:block}
+.icon-linkedin path{fill:var(--text-dark)}
+
+/* hover state: slightly darker blue for LinkedIn svg */
+.nav a.cta-social.linkedin:hover .icon-linkedin path{fill:#0a4f8f}
+
+/* LinkedIn badge (texto 'in') en la nav, fallback cuando la imagen no carga */
+.linkedin-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:20px;
+  height:20px;
+  background:#0A66C2;
+  color:white;
+  font-weight:800;
+  font-size:12px;
+  border-radius:4px;
+  font-family:Inter, Arial, sans-serif;
+  line-height:1;
+  text-transform:lowercase;
+}
+
+/* Ensure icons inside nav are vertically centered and keyboard-focusable */
+.nav a.cta-social:focus{outline:2px solid rgba(10,102,194,0.18);outline-offset:3px}
+
+/* main container as stacked sections */
+.container{max-width:1100px;margin:16px auto;padding:20px 16px 64px;display:block}
+
+/* intro overlay - ahora con aspecto de terminal / código (fondo opaco + texto verde animado) */
+.intro-overlay{position:fixed;inset:0;z-index:220;background:#020406;display:flex;align-items:center;justify-content:center;flex-direction:column;overflow:hidden;color:var(--text-light);opacity:1;visibility:visible;transition:opacity 900ms cubic-bezier(.2,.9,.2,1), visibility 900ms ease;will-change:opacity}
+/* clase que causa el desvanecimiento (se añade desde script) */
+.intro-overlay.overlay-hide{opacity:0;visibility:hidden;pointer-events:none}
+
+/* capa principal con texto de 'código' en verde; usamos un SVG data-uri para mejor control */
+.intro-overlay::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0.12;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><style>text{font-family:monospace;font-size:12px;fill:%2300ff6a;}</style><text x='10' y='20'>const a = 0x1f4; // iniciar...</text><text x='10' y='40'>for(let i=0;i&lt;100;i++){ console.log(i); }</text><text x='10' y='60'>/* sudo access granted */</text><text x='10' y='80'>>>> ssh user@machine</text><text x='10' y='100'>_</text></svg>");background-repeat:repeat;background-position:0 0;animation:codeScroll 18s linear infinite}
+
+/* capa de líneas horizontales tipo 'scanline' para estética retro */
+.intro-overlay::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px);background-size:100% 4px;mix-blend-mode:overlay;opacity:0.08;pointer-events:none}
+
+@keyframes codeScroll{from{background-position:0 0}to{background-position:0 -600px}}
+
+/* Overlay text: change font to Press Start 2P for pixel look, keep name large */
+.overlay-text{z-index:240;margin-top:18px;color:var(--text-light);text-align:center;padding:0 20px;font-family: 'Courier New', Courier, monospace}
+.overlay-text .greeting{font-family:'Press Start 2P',monospace;color:var(--text-light);font-size:14px;letter-spacing:1px}
+.overlay-text .name{font-family:'Press Start 2P',monospace;color:var(--gold);font-size:64px;line-height:0.95;margin-top:8px;animation:popIn 900ms cubic-bezier(.2,.9,.2,1) both, glow 2.2s ease-in-out infinite;text-transform:uppercase; text-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.02);}
+@keyframes popIn{0%{transform:scale(0.6);opacity:0}60%{transform:scale(1.05);opacity:1}100%{transform:scale(1)}}
+@keyframes glow{0%{text-shadow:0 0 0 rgba(212,164,0,0)}50%{text-shadow:0 6px 30px rgba(212,164,0,0.5)}100%{text-shadow:0 0 0 rgba(212,164,0,0)}}
+
+/* pixel glints floating over the overlay */
+.pixel-glint{position:absolute;width:6px;height:6px;background:linear-gradient(180deg,var(--gold),#fff);box-shadow:0 0 6px rgba(255,255,255,0.6);opacity:0.9;image-rendering:pixelated;animation:glint 4s linear infinite}
+@keyframes glint{0%{transform:translateY(0) scale(1);opacity:0.9}50%{transform:translateY(-24px) scale(1.2);opacity:1}100%{transform:translateY(0) scale(1);opacity:0.9}}
+
+/* Sobre mí: photo large, title color uses semantic variable */
+.hero{max-width:1100px;margin:18px auto;padding:24px;border-radius:12px;background:var(--panel);border:1px solid rgba(15,23,42,0.06);display:grid;grid-template-columns: 420px 1fr;gap:22px;align-items:center}
+.photo{width:420px;height:420px;border-radius:12px;overflow:hidden;border:4px solid rgba(15,23,42,0.06);background:#f3f7fb}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.intro h2{margin:0;font-size:24px;color:var(--text-dark);font-family:'Press Start 2P',monospace}
+.tagline{font-size:15px;color:var(--muted);line-height:1.5}
+
+/* reduce big CTA spacing */
+.cta-links{margin-top:14px;display:flex;gap:10px}
+
+/* sections and reveal - centered card look */
+.section{max-width:1000px;margin:12px auto;padding:16px;border-radius:10px;background:var(--panel);border:1px solid rgba(15,23,42,0.04);opacity:0;transform:translateY(12px) scale(0.996);transition:opacity .5s ease, transform .5s cubic-bezier(.2,.9,.2,1)}
+.section.visible{opacity:1;transform:translateY(0) scale(1)}
+.section h3{margin:0 0 8px;font-size:18px;color:var(--text-dark);font-family:'Luckiest Guy','Press Start 2P',monospace;letter-spacing:0.5px;text-shadow: none;}
+.section p{color:var(--muted);margin:0 0 8px}
+
+/* badges */
+.badges{display:flex;flex-wrap:wrap;gap:10px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg, rgba(46,166,246,0.03), rgba(212,164,0,0.02));border:1px solid rgba(15,23,42,0.02);font-weight:700;font-size:12px;color:var(--muted);}
+.badge img{width:22px;height:22px;image-rendering:pixelated}
+.badge .label{color:var(--text-dark);font-weight:700}
+
+/* projects grid - removed but keep styles if needed */
+.projects{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+.project{display:flex;gap:12px;align-items:center;padding:12px;border-radius:8px;background:#f7fbff;border:1px solid rgba(15,23,42,0.03)}
+.project .thumb{width:110px;height:70px;border-radius:6px;overflow:hidden;background:#e6eef6}
+.project .thumb img{width:100%;height:100%;object-fit:cover}
+.project a{color:var(--sky);text-decoration:none;font-weight:800}
+.project p{margin:0;color:var(--muted);font-size:13px}
+
+/* contact */
+.contact-list{display:flex;flex-direction:column;gap:8px}
+.contact-list a{color:var(--text-dark);font-weight:800;text-decoration:none}
+.cta-download{display:inline-block;padding:10px 14px;border-radius:8px;border:2px solid var(--gold);color:var(--gold);text-decoration:none;font-weight:800;margin-top:8px}
+
+/* Contact form styles */
+.contact-btn{display:inline-block;margin-top:8px;padding:8px 12px;border-radius:8px;background:var(--sky);color:white;border:2px solid rgba(0,0,0,0.06);font-weight:700;cursor:pointer}
+.contact-btn:hover{filter:brightness(0.96)}
+
+#contactFormContainer{margin-top:12px}
+.contact-form{display:flex;flex-direction:column;gap:10px;max-width:520px}
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea{padding:10px;border-radius:8px;border:1px solid rgba(15,23,42,0.08);font-size:14px}
+.contact-form textarea{min-height:120px;resize:vertical}
+.contact-form .form-actions{display:flex;gap:8px;align-items:center}
+.contact-form .btn-submit{background:var(--gold);color:#081018;border:2px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:8px;font-weight:800;cursor:pointer}
+.contact-form .btn-cancel{background:transparent;color:var(--muted);border:2px solid rgba(15,23,42,0.06);padding:8px 12px;border-radius:8px;cursor:pointer}
+
+/* small success message */
+.contact-success{padding:10px;border-radius:8px;background:linear-gradient(90deg, rgba(46,166,246,0.06), rgba(212,164,0,0.04));border:1px solid rgba(15,23,42,0.04);color:var(--text-dark);font-weight:700}
+
+.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:28px}
+.footer a{color:var(--text-dark)}
+
+/* accessibility focus */
+a:focus{outline:3px dashed var(--gold);outline-offset:4px}
+
+/* Ensure titles inside panels/cards use dark text for legibility */
+.card h2,
+.card h3,
+.card .intro h2,
+.card .section h3,
+.card .hero h2{
+  color: var(--text-dark) !important;
+}
+
+/* Reduce large decorative shadows that hurt legibility */
+.section h3{ text-shadow: none;}
